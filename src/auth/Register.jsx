@@ -53,7 +53,7 @@ export function Register() {
                 type="text"
                 name="first-name"
                 placeholder="John"
-                className="w-full placeholder:opacity-70 focus:border-gray-500 border-gray-400 rounded-lg"
+                className="w-full placeholder:opacity-70 focus:border-t-gray-900 border-t-blue-gray-200 rounded-lg"
               />
             </div>
             <div>
@@ -72,7 +72,7 @@ export function Register() {
                 type="text"
                 name="last-name"
                 placeholder="Doe"
-                className="w-full placeholder:opacity-70 focus:border-gray-500 border-gray-400 rounded-lg"
+                className="w-full placeholder:opacity-70 focus:border-t-gray-900 border-t-blue-gray-200 rounded-lg"
               />
             </div>
           </div>
@@ -94,7 +94,7 @@ export function Register() {
               type="email"
               name="email"
               placeholder="name@mail.com"
-              className="w-full placeholder:opacity-70 focus:border-gray-500 border-gray-400 rounded-lg"
+              className="w-full placeholder:opacity-70 focus:border-t-gray-900 border-t-blue-gray-200 rounded-lg"
             />
           </div>
 
@@ -112,7 +112,7 @@ export function Register() {
               <Input
                 size="lg"
                 placeholder="********"
-                className="w-full placeholder:opacity-70 focus:border-gray-500 border-gray-400 rounded-lg"
+                className="w-full placeholder:opacity-70 focus:border-t-gray-900 border-t-blue-gray-200 rounded-lg"
                 type={passwordShown ? "text" : "password"}
                 icon={
                   <i onClick={togglePasswordVisiblity}>
@@ -137,7 +137,7 @@ export function Register() {
               <Input
                 size="lg"
                 placeholder="********"
-                className="w-full placeholder:opacity-70 focus:border-gray-500 border-gray-400 rounded-lg"
+                className="w-full placeholder:opacity-70 focus:border-t-gray-900 border-t-blue-gray-200 rounded-lg"
                 type={confirmPasswordShown ? "text" : "password"}
                 icon={
                   <i onClick={toggleConfirmPasswordVisiblity}>

@@ -1,5 +1,5 @@
 import { Typography } from "@material-tailwind/react";
-const links = ["Company", "About Us", "Team", "Products", "Blog", "Pricing"];
+const links = ["About Us", "Pricing", "Contact Us"];
 const currentYear = new Date().getFullYear();
 
 export function Footer() {
@@ -26,7 +26,7 @@ export function Footer() {
           color="blue-gray"
           className="mt-6 !text-sm !font-normal text-gray-500"
         >
-          Copyright &copy; {currentYear} Material Tailwind
+          Copyright &copy; {currentYear} AlloMedia Delivery
         </Typography>
       </div>
     </footer>
