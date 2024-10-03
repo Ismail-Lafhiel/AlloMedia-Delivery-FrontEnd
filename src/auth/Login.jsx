@@ -77,6 +77,19 @@ export function Login() {
                 </i>
               }
             />
+            <Typography
+              variant="small"
+              color="gray"
+              className="!mt-4 font-normal text-right"
+            >
+              Forgot password?{" "}
+              <a
+                href="#"
+                className="font-medium text-gray-700 underline ml-0.5"
+              >
+                Reset here
+              </a>
+            </Typography>
           </div>
           {/* Sign in Button */}
           <Button color="gray" size="lg" className="mt-6 rounded-lg" fullWidth>
