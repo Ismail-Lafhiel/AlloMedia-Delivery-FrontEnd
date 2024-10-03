@@ -4,6 +4,7 @@ import Login from "./auth/Login";
 import Footer from "./partials/Footer";
 import NavbarMenu from "./partials/NavbarMenu";
 import ResetPasswordRequest from "./auth/ResetPasswordRequest";
+import ResetPassword from "./auth/resetPassword";
 
 
 function App() {
@@ -12,7 +13,8 @@ function App() {
       <NavbarMenu />
       {/* <Register /> */}
       {/* <Login/> */}
-      <ResetPasswordRequest/>
+      {/* <ResetPasswordRequest/> */}
+      <ResetPassword/>
       <Footer />
     </>
   );

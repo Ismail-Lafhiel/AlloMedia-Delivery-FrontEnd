@@ -21,10 +21,10 @@ export function ResetPasswordRequest() {
       {/* Form Card */}
       <Card className="p-8 shadow-xl w-full max-w-[28rem] bg-white relative z-10">
         <Typography variant="h3" color="blue-gray" className="text-center mb-6">
-          Reset Password
+          Reset Password Request
         </Typography>
         <Typography className="mb-8 text-gray-600 font-normal text-center text-[18px]">
-          Enter your email and to reset your password
+          Enter your email and to send password reset request
         </Typography>
         <form action="#" className="space-y-6 w-full">
           {/* Email */}
@@ -49,7 +49,7 @@ export function ResetPasswordRequest() {
           </div>
           {/* Reset Password Button */}
           <Button color="gray" size="lg" className="mt-6 rounded-lg" fullWidth>
-            Reset Password
+            Send Reset Password
           </Button>
 
           {/* Sign In Link */}
