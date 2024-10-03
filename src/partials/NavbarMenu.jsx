@@ -9,22 +9,22 @@ import {
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 
-function NavItem({ label }) {
+function NavItem({ label, path }) {
   return (
-    <a href="#">
+    <Link to={path}>
       <Typography as="li" color="blue-gray" className="p-1 font-medium">
         {label}
       </Typography>
-    </a>
+    </Link>
   );
 }
 
 function NavList() {
   return (
     <ul className="mb-4 mt-2 flex flex-col gap-3 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-8">
-      <NavItem label="About Us" />
-      <NavItem label="Pricing" />
-      <NavItem label="Contact Us" />
+      <NavItem label="About Us" path="/about-us" />
+      <NavItem label="Pricing" path="/pricing" />
+      <NavItem label="Contact Us" path="/contact-us" />
     </ul>
   );
 }
@@ -43,14 +43,14 @@ export function NavbarMenu() {
   return (
     <Navbar color="transparent" fullWidth>
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
-        <Typography
-          as="a"
-          href="#"
-          color="blue-gray"
-          className="mr-4 cursor-pointer text-lg font-bold"
-        >
-          AlloMedia Delivery
-        </Typography>
+        <Link to="/">
+          <Typography
+            color="blue-gray"
+            className="mr-4 cursor-pointer text-lg font-bold"
+          >
+            AlloMedia Delivery
+          </Typography>
+        </Link>
         <div className="hidden lg:block">
           <NavList />
         </div>

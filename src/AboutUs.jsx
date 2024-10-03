@@ -2,7 +2,7 @@ import React from "react";
 import { Typography } from "@material-tailwind/react";
 import { Cog8ToothIcon } from "@heroicons/react/24/solid";
 
-export function Home() {
+export function AboutUs() {
   return (
     <div className="h-screen px-8 mx-auto grid place-items-center text-center">
       <div>
@@ -12,7 +12,7 @@ export function Home() {
           color="blue-gray"
           className="mt-7 !text-2xl md:text-3xl max-w-xl mx-auto !leading-snug"
         >
-          Home page is currently undergoing maintenance to improve your
+          About us page is currently undergoing maintenance to improve your
           experience.
         </Typography>
         <Typography className="!mt-4 md:max-w-2xl text-[18px] font-normal text-gray-500">
@@ -24,4 +24,4 @@ export function Home() {
   );
 }
 
-export default Home;
+export default AboutUs;
