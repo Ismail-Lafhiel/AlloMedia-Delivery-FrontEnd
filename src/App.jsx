@@ -14,23 +14,33 @@ import AboutUs from "./AboutUs";
 function App() {
   return (
     <>
-      <Router>
-        <NavbarMenu />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about-us" element={<AboutUs />} />
-          <Route path="/contact-us" element={<Contact />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/reset-password-request"
-            element={<ResetPasswordRequest />}
-          />
-          <Route path="/reset-password" element={<ResetPassword />} />
-        </Routes>
-        <Footer />
-      </Router>
+      <div className="flex flex-col min-h-screen">
+        {" "}
+        <Router>
+          <header>
+            <NavbarMenu />
+          </header>
+          <main className="flex-grow">
+            {" "}
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about-us" element={<AboutUs />} />
+              <Route path="/contact-us" element={<Contact />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route
+                path="/reset-password-request"
+                element={<ResetPasswordRequest />}
+              />
+              <Route path="/reset-password" element={<ResetPassword />} />
+            </Routes>
+          </main>
+          <footer>
+            <Footer />
+          </footer>
+        </Router>
+      </div>
     </>
   );
 }

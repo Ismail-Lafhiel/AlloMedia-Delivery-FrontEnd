@@ -14,6 +14,7 @@ export const Register = () => {
   const togglePasswordVisiblity = () => setPasswordShown((cur) => !cur);
   const toggleConfirmPasswordVisiblity = () =>
     setConfirmPasswordShown((cur) => !cur);
+
   // Validation schema
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
@@ -43,7 +44,9 @@ export const Register = () => {
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-gray-200 relative overflow-hidden">
+    <section className="min-h-screen flex items-center justify-center bg-gray-200 py-12 px-4 relative overflow-hidden">
+      {" "}
+      {/* Add padding for space */}
       {/* Animated Background */}
       <div className="animated-background">
         <div className="shape triangle"></div>
@@ -56,7 +59,6 @@ export const Register = () => {
         <div className="shape cross"></div>
         <div className="shape square"></div>
       </div>
-
       {/* Form Card */}
       <Card className="p-8 shadow-xl w-full max-w-[28rem] md:max-w-[40rem] bg-white relative z-10">
         <Typography variant="h3" color="blue-gray" className="text-center mb-6">
@@ -219,6 +221,35 @@ export const Register = () => {
           >
             Register
           </Button>
+          {/* Google Sign-in */}
+          <Button
+            variant="outlined"
+            size="lg"
+            className="mt-4 flex items-center justify-center gap-2 h-12 rounded-lg border-gray-400"
+            fullWidth
+          >
+            <img
+              src={`https://www.material-tailwind.com/logos/logo-google.png`}
+              alt="google"
+              className="h-6 w-6"
+            />
+            Sign in with Google
+          </Button>
+
+          {/* Sign In Link */}
+          <Typography
+            variant="small"
+            color="gray"
+            className="!mt-4 text-center font-normal"
+          >
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="font-medium text-gray-700 underline ml-0.5"
+            >
+              Sign in
+            </Link>
+          </Typography>
         </form>
       </Card>
     </section>
