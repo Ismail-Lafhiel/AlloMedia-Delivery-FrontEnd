@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Typography, Input, Button, Card } from "@material-tailwind/react";
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
+import { Link } from "react-router-dom";
 import "./css/styles.css";
 
 export function Login() {
@@ -25,7 +26,7 @@ export function Login() {
       {/* Form Card */}
       <Card className="p-8 shadow-xl w-full max-w-[28rem] md:max-w-[32rem] bg-white relative z-10">
         <Typography variant="h3" color="blue-gray" className="text-center mb-6">
-          Login
+          Sign In
         </Typography>
         <Typography className="mb-8 text-gray-600 font-normal text-center text-[18px]">
           Enter your email and password to sign in
@@ -83,12 +84,11 @@ export function Login() {
               className="!mt-4 font-normal text-right"
             >
               Forgot password?{" "}
-              <a
-                href="#"
+              <Link to="/reset-password-request"
                 className="font-medium text-gray-700 underline ml-0.5"
               >
-                Reset here
-              </a>
+                reset here
+              </Link>
             </Typography>
           </div>
           {/* Sign in Button */}
@@ -118,9 +118,9 @@ export function Login() {
             className="!mt-4 text-center font-normal"
           >
             Don't have an account?{" "}
-            <a href="#" className="font-medium text-gray-700 underline ml-0.5">
+            <Link to="/register" className="font-medium text-gray-700 underline ml-0.5">
               Register
-            </a>
+            </Link>
           </Typography>
         </form>
       </Card>

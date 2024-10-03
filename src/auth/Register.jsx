@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Typography, Input, Button, Card } from "@material-tailwind/react";
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
+import { Link } from "react-router-dom";
 import './css/styles.css';
 
 export function Register() {
@@ -179,9 +180,9 @@ export function Register() {
             className="!mt-4 text-center font-normal"
           >
             Already have an account?{" "}
-            <a href="#" className="font-medium text-gray-700 underline ml-0.5">
+            <Link to="/login" className="font-medium text-gray-700 underline ml-0.5">
               Sign in
-            </a>
+            </Link>
           </Typography>
         </form>
       </Card>

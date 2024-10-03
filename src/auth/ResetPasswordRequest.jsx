@@ -1,4 +1,5 @@
 import { Typography, Input, Button, Card } from "@material-tailwind/react";
+import { Link } from "react-router-dom";
 import "./css/styles.css";
 
 export function ResetPasswordRequest() {
@@ -59,9 +60,9 @@ export function ResetPasswordRequest() {
             className="!mt-4 text-center font-normal"
           >
             Go back to{" "}
-            <a href="#" className="font-medium text-gray-700 underline ml-0.5">
+            <Link to="/login" className="font-medium text-gray-700 underline ml-0.5">
               Sign in
-            </a>
+            </Link>
           </Typography>
         </form>
       </Card>

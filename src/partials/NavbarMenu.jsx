@@ -7,6 +7,7 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 function NavItem({ label }) {
   return (
@@ -54,12 +55,16 @@ export function NavbarMenu() {
           <NavList />
         </div>
         <div className="flex gap-2">
-          <Button color="gray" className="hidden lg:inline-block">
-            Sign in
-          </Button>
-          <Button color="green" className="hidden lg:inline-block">
-            Register
-          </Button>
+          <Link to="/login">
+            <Button color="gray" className="hidden lg:inline-block">
+              Sign in
+            </Button>
+          </Link>
+          <Link to="/register">
+            <Button color="green" className="hidden lg:inline-block">
+              Register
+            </Button>
+          </Link>
         </div>
         <IconButton
           size="sm"
@@ -78,12 +83,16 @@ export function NavbarMenu() {
       <Collapse open={open}>
         <div className="mt-2 rounded-xl bg-white py-2">
           <NavList />
-          <Button className="mb-2" fullWidth>
-            Sign in
-          </Button>
-          <Button className="mb-2" color="green" fullWidth>
-            Register
-          </Button>
+          <Link to="/login">
+            <Button className="mb-2" fullWidth>
+              Sign in
+            </Button>
+          </Link>
+          <Link to="/register">
+            <Button className="mb-2" color="green" fullWidth>
+              Register
+            </Button>
+          </Link>
         </div>
       </Collapse>
     </Navbar>
