@@ -31,7 +31,7 @@ export const Login = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    // registration logic here
+    // login logic here
   };
   return (
     <section className="min-h-screen flex items-center justify-center bg-gray-200 relative overflow-hidden">
