@@ -6,6 +6,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import "./css/styles.css";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const Register = () => {
   const [passwordShown, setPasswordShown] = useState(false);
@@ -17,14 +20,14 @@ export const Register = () => {
 
   // Validation schema
   const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required("First Name is required"),
-    lastName: Yup.string().required("Last Name is required"),
+    first_name: Yup.string().required("First Name is required"),
+    last_name: Yup.string().required("Last Name is required"),
     email: Yup.string()
       .email("Invalid email format")
       .required("Email is required"),
     password: Yup.string()
-      .min(8, "Password must be at least 8 characters")
-      .required("Password is required"),
+      .required("Password is required")
+      .min(8, "Password must be at least 8 characters"),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password")], "Passwords must match")
       .required("Confirm Password is required"),
@@ -38,15 +41,72 @@ export const Register = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
-    // registration logic here
+  const onSubmit = async (data) => {
+    const userData = {
+      first_name: data.first_name,
+      last_name: data.last_name,
+      email: data.email,
+      password: data.password.trim(),
+      confirmPassword: data.confirmPassword.trim(),
+    };
+
+    console.log("User Data Being Sent:", userData);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/register",
+        userData
+      );
+
+      if (response.status === 201) {
+        toast.success(
+          response.data.message || "Account created successfully!",
+          {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          }
+        );
+      }
+    } catch (error) {
+      // If there are validation errors, show them as toast messages
+      if (error.response?.data?.message) {
+        error.response.data.message.forEach((err) => {
+          toast.error(err.msg || "An error occurred. Please try again.", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        });
+      } else {
+        toast.error(
+          error.response?.data?.message ||
+            "An error occurred. Please try again.",
+          {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          }
+        );
+      }
+    }
   };
 
   return (
     <section className="min-h-screen flex items-center justify-center bg-gray-200 py-12 px-4 relative overflow-hidden">
       {" "}
-      {/* Add padding for space */}
       {/* Animated Background */}
       <div className="animated-background">
         <div className="shape triangle"></div>
@@ -80,17 +140,17 @@ export const Register = () => {
                 </Typography>
               </label>
               <Input
-                {...register("firstName")}
+                {...register("first_name")}
                 color="gray"
                 size="lg"
                 type="text"
-                name="firstName"
+                name="first_name"
                 placeholder="John"
                 className="w-full placeholder:opacity-70 focus:border-t-gray-900 border-t-blue-gray-200 rounded-lg"
               />
-              {errors.firstName && (
+              {errors.first_name && (
                 <p className="text-red-600 text-sm mt-1 ml-0.5">
-                  {errors.firstName.message}
+                  {errors.first_name.message}
                 </p>
               )}
             </div>
@@ -105,17 +165,17 @@ export const Register = () => {
                 </Typography>
               </label>
               <Input
-                {...register("lastName")}
+                {...register("last_name")}
                 color="gray"
                 size="lg"
                 type="text"
-                name="lastName"
+                name="last_name"
                 placeholder="Doe"
                 className="w-full placeholder:opacity-70 focus:border-t-gray-900 border-t-blue-gray-200 rounded-lg"
               />
-              {errors.lastName && (
+              {errors.last_name && (
                 <p className="text-red-600 text-sm mt-1 ml-0.5">
-                  {errors.lastName.message}
+                  {errors.last_name.message}
                 </p>
               )}
             </div>
@@ -252,6 +312,8 @@ export const Register = () => {
           </Typography>
         </form>
       </Card>
+      {/* Toast Container */}
+      <ToastContainer />
     </section>
   );
 };
