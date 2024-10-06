@@ -10,6 +10,7 @@ import Home from "./Home";
 import Contact from "./Contact";
 import Pricing from "./Pricing";
 import AboutUs from "./AboutUs";
+import ConfirmEmail from "./auth/ConfirmEmail";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/confirm-email" element={<ConfirmEmail />} />
               <Route
                 path="/reset-password-request"
                 element={<ResetPasswordRequest />}

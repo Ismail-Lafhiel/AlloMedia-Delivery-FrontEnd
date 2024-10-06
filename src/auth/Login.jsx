@@ -1,15 +1,20 @@
 import { useState } from "react";
 import { Typography, Input, Button, Card } from "@material-tailwind/react";
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import "./css/styles.css";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const Login = () => {
   const [passwordShown, setPasswordShown] = useState(false);
   const togglePasswordVisiblity = () => setPasswordShown((cur) => !cur);
+
+  const navigate = useNavigate();
 
   // Validation schema
   const validationSchema = Yup.object().shape({
@@ -29,9 +34,26 @@ export const Login = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
-    // registration logic here
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/login",
+        data
+      );
+
+      if (response.status === 200) {
+        toast.success(response.data.message);
+        // Saving the token to localStorage
+        localStorage.setItem("token", response.data.token|| "Your email successfully verified.");
+        navigate("/");
+      }
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.message || "Login failed.");
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
+    }
   };
   return (
     <section className="min-h-screen flex items-center justify-center bg-gray-200 relative overflow-hidden">
@@ -175,6 +197,7 @@ export const Login = () => {
           </Typography>
         </form>
       </Card>
+      <ToastContainer />
     </section>
   );
 };
