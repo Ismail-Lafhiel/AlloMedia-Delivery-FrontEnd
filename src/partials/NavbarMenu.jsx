@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Navbar,
   Collapse,
@@ -8,6 +8,7 @@ import {
 } from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import { useAuth } from "../AuthContext.jsx";
 
 function NavItem({ label, path }) {
   return (
@@ -30,14 +31,22 @@ function NavList() {
 }
 
 export function NavbarMenu() {
-  const [open, setOpen] = React.useState(false);
+  const { isAuthenticated, logout, user } = useAuth(); // Assuming 'user' contains user data
+  const [open, setOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const handleOpen = () => setOpen((cur) => !cur);
+  const toggleDropdown = () => setDropdownOpen((cur) => !cur);
+  console.log(isAuthenticated);
+  
 
   React.useEffect(() => {
-    window.addEventListener(
-      "resize",
-      () => window.innerWidth >= 960 && setOpen(false)
-    );
+    const handleResize = () => {
+      if (window.innerWidth >= 960) {
+        setOpen(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
@@ -55,16 +64,73 @@ export function NavbarMenu() {
           <NavList />
         </div>
         <div className="flex gap-2">
-          <Link to="/login">
-            <Button color="gray" className="hidden lg:inline-block">
-              Sign in
-            </Button>
-          </Link>
-          <Link to="/register">
-            <Button color="green" className="hidden lg:inline-block">
-              Register
-            </Button>
-          </Link>
+          {isAuthenticated ? (
+            <>
+              {/* User Avatar and Dropdown */}
+              <div className="relative inline-block text-left">
+                <img
+                  id="avatarButton"
+                  onClick={toggleDropdown}
+                  className="w-10 h-10 rounded-full cursor-pointer"
+                  src="/docs/images/people/profile-picture-5.jpg" // Update this image as needed
+                  alt="User dropdown"
+                />
+                {dropdownOpen && (
+                  <div className="absolute right-0 z-10 w-44 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-lg shadow-lg">
+                    <div className="px-4 py-3 text-sm text-gray-900">
+                      <div>{user.name}</div> {/* Updated to show user's name */}
+                      <div className="font-medium truncate">
+                        {user.email} {/* Updated to show user's email */}
+                      </div>
+                    </div>
+                    <ul className="py-2 text-sm text-gray-700">
+                      <li>
+                        <Link to="/dashboard">
+                          <a className="block px-4 py-2 hover:bg-gray-100">
+                            Dashboard
+                          </a>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/settings">
+                          <a className="block px-4 py-2 hover:bg-gray-100">
+                            Settings
+                          </a>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/earnings">
+                          <a className="block px-4 py-2 hover:bg-gray-100">
+                            Earnings
+                          </a>
+                        </Link>
+                      </li>
+                    </ul>
+                    <div className="py-1">
+                      <Link to="/logout" onClick={logout}>
+                        <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                          Sign out
+                        </a>
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+              <Link to="/login">
+                <Button color="gray" className="hidden lg:inline-block">
+                  Sign in
+                </Button>
+              </Link>
+              <Link to="/register">
+                <Button color="green" className="hidden lg:inline-block">
+                  Register
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
         <IconButton
           size="sm"
@@ -83,16 +149,26 @@ export function NavbarMenu() {
       <Collapse open={open}>
         <div className="mt-2 rounded-xl bg-white py-2">
           <NavList />
-          <Link to="/login">
-            <Button className="mb-2" fullWidth>
-              Sign in
-            </Button>
-          </Link>
-          <Link to="/register">
-            <Button className="mb-2" color="green" fullWidth>
-              Register
-            </Button>
-          </Link>
+          {isAuthenticated ? (
+            <Link to="/logout" onClick={logout}>
+              <Button className="mb-2" fullWidth>
+                Sign out
+              </Button>
+            </Link>
+          ) : (
+            <>
+              <Link to="/login">
+                <Button className="mb-2" fullWidth>
+                  Sign in
+                </Button>
+              </Link>
+              <Link to="/register">
+                <Button className="mb-2" color="green" fullWidth>
+                  Register
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
       </Collapse>
     </Navbar>

@@ -9,8 +9,11 @@ import "./css/styles.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
+import { useAuth } from "../AuthContext.jsx";
 
 export const Login = () => {
+  const { login } = useAuth();
   const [passwordShown, setPasswordShown] = useState(false);
   const togglePasswordVisiblity = () => setPasswordShown((cur) => !cur);
 
@@ -20,10 +23,12 @@ export const Login = () => {
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .email("Invalid email format")
-      .required("Email is required"),
+      .required("Email is required")
+      .trim(),
     password: Yup.string()
       .min(8, "Password must be at least 8 characters")
-      .required("Password is required"),
+      .required("Password is required")
+      .trim(),
   });
 
   const {
@@ -43,9 +48,11 @@ export const Login = () => {
 
       if (response.status === 200) {
         toast.success(response.data.message);
-        // Saving the token to localStorage
-        localStorage.setItem("token", response.data.token|| "Your email successfully verified.");
-        navigate("/");
+
+        // Storing the token in a cookie
+        Cookies.set("token", response.data.token, { expires: 7 }); // Expires in 7 days
+        login(response.data.user);
+        navigate("/"); // Redirecting to homepage
       }
     } catch (error) {
       if (error.response) {
@@ -78,11 +85,7 @@ export const Login = () => {
         <Typography className="mb-8 text-gray-600 font-normal text-center text-[18px]">
           Enter your email and password to sign in
         </Typography>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          action="#"
-          className="space-y-6 w-full"
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 w-full">
           {/* Email */}
           <div>
             <label htmlFor="email">
@@ -174,7 +177,7 @@ export const Login = () => {
             fullWidth
           >
             <img
-              src={`https://www.material-tailwind.com/logos/logo-google.png`}
+              // src={`https://www.material-tailwind.com/logos/logo-google.png`}
               alt="google"
               className="h-6 w-6"
             />
