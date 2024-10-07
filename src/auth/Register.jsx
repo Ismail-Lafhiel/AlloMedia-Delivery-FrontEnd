@@ -20,17 +20,25 @@ export const Register = () => {
 
   // Validation schema
   const validationSchema = Yup.object().shape({
-    first_name: Yup.string().required("First Name is required"),
-    last_name: Yup.string().required("Last Name is required"),
+    first_name: Yup.string()
+      .required("First Name is required")
+      .matches(/^[A-Za-z]+$/, "First Name must contain only letters").trim(),
+
+    last_name: Yup.string()
+      .required("Last Name is required")
+      .matches(/^[A-Za-z]+$/, "Last Name must contain only letters").trim(),
+
     email: Yup.string()
       .email("Invalid email format")
-      .required("Email is required"),
+      .required("Email is required").trim(),
+
     password: Yup.string()
       .required("Password is required")
-      .min(8, "Password must be at least 8 characters"),
+      .min(8, "Password must be at least 8 characters").trim(),
+
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password")], "Passwords must match")
-      .required("Confirm Password is required"),
+      .required("Confirm Password is required").trim(),
   });
 
   const {
@@ -289,7 +297,7 @@ export const Register = () => {
             fullWidth
           >
             <img
-              src={`https://www.material-tailwind.com/logos/logo-google.png`}
+              // src={`https://www.material-tailwind.com/logos/logo-google.png`}
               alt="google"
               className="h-6 w-6"
             />
