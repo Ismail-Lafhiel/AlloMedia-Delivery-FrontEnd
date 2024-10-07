@@ -48,20 +48,21 @@ export const Login = () => {
 
       if (response.status === 200) {
         toast.success(response.data.message);
-
-        // Storing the token in a cookie
         Cookies.set("token", response.data.token, { expires: 7 }); // Expires in 7 days
+
+        // Storing the user data in local storage
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+
+        // Log in the user using AuthContext
         login(response.data.user);
         navigate("/"); // Redirecting to homepage
       }
     } catch (error) {
-      if (error.response) {
-        toast.error(error.response.data.message || "Login failed.");
-      } else {
-        toast.error("Something went wrong. Please try again.");
-      }
+      const errorMessage = error.response?.data.message || "Login failed.";
+      toast.error(errorMessage);
     }
   };
+
   return (
     <section className="min-h-screen flex items-center justify-center bg-gray-200 relative overflow-hidden">
       {/* Animated Background */}

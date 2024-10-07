@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Navbar,
   Collapse,
@@ -31,15 +31,15 @@ function NavList() {
 }
 
 export function NavbarMenu() {
-  const { isAuthenticated, logout, user } = useAuth(); // Assuming 'user' contains user data
+  const { isAuthenticated, logout, user } = useAuth();
   const [open, setOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  console.log(isAuthenticated, user);
+
   const handleOpen = () => setOpen((cur) => !cur);
   const toggleDropdown = () => setDropdownOpen((cur) => !cur);
-  console.log(isAuthenticated);
-  
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 960) {
         setOpen(false);
@@ -66,42 +66,27 @@ export function NavbarMenu() {
         <div className="flex gap-2">
           {isAuthenticated ? (
             <>
-              {/* User Avatar and Dropdown */}
               <div className="relative inline-block text-left">
                 <img
                   id="avatarButton"
                   onClick={toggleDropdown}
                   className="w-10 h-10 rounded-full cursor-pointer"
-                  src="/docs/images/people/profile-picture-5.jpg" // Update this image as needed
+                  src="/docs/images/people/profile-picture-5.jpg"
                   alt="User dropdown"
                 />
                 {dropdownOpen && (
                   <div className="absolute right-0 z-10 w-44 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-lg shadow-lg">
                     <div className="px-4 py-3 text-sm text-gray-900">
-                      <div>{user.name}</div> {/* Updated to show user's name */}
-                      <div className="font-medium truncate">
-                        {user.email} {/* Updated to show user's email */}
+                      <div className="capitalize font-bold">
+                        {user.first_name} {user.last_name}
                       </div>
+                      <div className="font-medium truncate">{user.email}</div>
                     </div>
                     <ul className="py-2 text-sm text-gray-700">
                       <li>
                         <Link to="/dashboard">
                           <a className="block px-4 py-2 hover:bg-gray-100">
-                            Dashboard
-                          </a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/settings">
-                          <a className="block px-4 py-2 hover:bg-gray-100">
-                            Settings
-                          </a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/earnings">
-                          <a className="block px-4 py-2 hover:bg-gray-100">
-                            Earnings
+                            Profile
                           </a>
                         </Link>
                       </li>
