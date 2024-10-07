@@ -7,7 +7,7 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext.jsx";
 
 function NavItem({ label, path }) {
@@ -34,6 +34,7 @@ export function NavbarMenu() {
   const { isAuthenticated, logout, user } = useAuth();
   const [open, setOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const navigate = useNavigate();
   console.log(isAuthenticated, user);
 
   const handleOpen = () => setOpen((cur) => !cur);
@@ -48,6 +49,11 @@ export function NavbarMenu() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <Navbar color="transparent" fullWidth>
@@ -84,7 +90,7 @@ export function NavbarMenu() {
                     </div>
                     <ul className="py-2 text-sm text-gray-700">
                       <li>
-                        <Link to="/dashboard">
+                        <Link to="/profile">
                           <a className="block px-4 py-2 hover:bg-gray-100">
                             Profile
                           </a>
@@ -92,11 +98,12 @@ export function NavbarMenu() {
                       </li>
                     </ul>
                     <div className="py-1">
-                      <Link to="/logout" onClick={logout}>
-                        <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                          Sign out
-                        </a>
-                      </Link>
+                      <button 
+                        onClick={handleLogout}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                      >
+                        Sign out
+                      </button>
                     </div>
                   </div>
                 )}
@@ -135,11 +142,11 @@ export function NavbarMenu() {
         <div className="mt-2 rounded-xl bg-white py-2">
           <NavList />
           {isAuthenticated ? (
-            <Link to="/logout" onClick={logout}>
+            <button onClick={handleLogout} className="mb-2 w-full">
               <Button className="mb-2" fullWidth>
                 Sign out
               </Button>
-            </Link>
+            </button>
           ) : (
             <>
               <Link to="/login">

@@ -12,6 +12,8 @@ import Pricing from "./Pricing";
 import AboutUs from "./AboutUs";
 import ConfirmEmail from "./auth/ConfirmEmail";
 import PublicRoute from "./PublicRoute";
+import Profile from "./profile/Profile";
+import PrivateRoute from "./PrivateRoute";
 
 function App() {
   return (
@@ -29,6 +31,14 @@ function App() {
               <Route path="/about-us" element={<AboutUs />} />
               <Route path="/contact-us" element={<Contact />} />
               <Route path="/pricing" element={<Pricing />} />
+              <Route
+                path="/profile"
+                element={
+                  <PrivateRoute>
+                    <Profile />
+                  </PrivateRoute>
+                }
+              />
               <Route
                 path="/register"
                 element={
