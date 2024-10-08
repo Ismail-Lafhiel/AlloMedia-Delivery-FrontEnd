@@ -14,6 +14,7 @@ import ConfirmEmail from "./auth/ConfirmEmail";
 import PublicRoute from "./PublicRoute";
 import Profile from "./profile/Profile";
 import PrivateRoute from "./PrivateRoute";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -68,6 +69,7 @@ function App() {
           </footer>
         </Router>
       </div>
+      <ToastContainer />
     </>
   );
 }

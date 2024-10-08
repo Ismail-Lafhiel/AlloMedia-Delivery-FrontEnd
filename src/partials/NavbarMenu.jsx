@@ -35,7 +35,6 @@ export function NavbarMenu() {
   const [open, setOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
-  console.log(isAuthenticated, user);
 
   const handleOpen = () => setOpen((cur) => !cur);
   const toggleDropdown = () => setDropdownOpen((cur) => !cur);
