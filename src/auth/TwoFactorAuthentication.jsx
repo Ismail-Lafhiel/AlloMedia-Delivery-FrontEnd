@@ -52,9 +52,9 @@ export const TwoFactorAuthentication = () => {
   const handleResendCode = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/resend-code"
+        "http://localhost:3000/api/resend-code",
+        { email }
       );
-      console.log(response.data);
       toast.success("Verification code resent! Check your email.");
     } catch (error) {
       console.error(error);
