@@ -33,7 +33,7 @@ export const TwoFactorAuthentication = () => {
         "http://localhost:3000/api/verify-2fa",
         { email, confirmationCode: data.code }
       );
-      console.log(response.data);
+      // console.log(response.data);
       // Show success message
       toast.success("2FA code verified successfully!");
     } catch (error) {
