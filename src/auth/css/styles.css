@@ -1,0 +1,106 @@
+.animated-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.shape {
+  position: absolute;
+  animation: spin 10s linear infinite;
+  opacity: 0.8;
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  border-bottom: 60px solid #4a5568; /* Dark gray color */
+}
+
+.cross {
+  width: 30px;
+  height: 30px;
+  background-color: #4a5568; /* Dark gray color */
+  position: relative;
+}
+
+.cross::before,
+.cross::after {
+  content: "";
+  position: absolute;
+  background-color: #4a5568; /* Dark gray color */
+}
+
+.cross::before {
+  width: 100%;
+  height: 5px;
+  top: 50%;
+  left: 0;
+}
+
+.cross::after {
+  width: 5px;
+  height: 100%;
+  top: 0;
+  left: 50%;
+}
+
+.square {
+  width: 30px;
+  height: 30px;
+  background-color: #4a5568; /* Dark gray color */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg) translateX(0);
+  }
+  100% {
+    transform: rotate(360deg) translateX(0);
+  }
+}
+
+/* Randomly position the shapes */
+.shape:nth-child(1) {
+  top: 10%;
+  left: 10%;
+}
+.shape:nth-child(2) {
+  top: 20%;
+  right: 10%;
+}
+.shape:nth-child(3) {
+  top: 30%;
+  left: 50%;
+}
+.shape:nth-child(4) {
+  top: 40%;
+  right: 20%;
+}
+.shape:nth-child(5) {
+  top: 50%;
+  left: 30%;
+}
+.shape:nth-child(6) {
+  top: 60%;
+  right: 40%;
+}
+.shape:nth-child(7) {
+  top: 70%;
+  left: 40%;
+}
+.shape:nth-child(8) {
+  top: 80%;
+  right: 20%;
+}
+.shape:nth-child(9) {
+  top: 90%;
+  left: 10%;
+}

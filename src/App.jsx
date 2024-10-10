@@ -1,35 +1,77 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Register from "./auth/Register";
+import Login from "./auth/Login";
+import Footer from "./partials/Footer";
+import NavbarMenu from "./partials/NavbarMenu";
+import ResetPasswordRequest from "./auth/ResetPasswordRequest";
+import ResetPassword from "./auth/resetPassword";
+import Home from "./Home";
+import Contact from "./Contact";
+import Pricing from "./Pricing";
+import AboutUs from "./AboutUs";
+import ConfirmEmail from "./auth/ConfirmEmail";
+import PublicRoute from "./PublicRoute";
+import Profile from "./profile/Profile";
+import PrivateRoute from "./PrivateRoute";
+import { ToastContainer } from "react-toastify";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="flex flex-col min-h-screen">
+        {" "}
+        <Router>
+          <header>
+            <NavbarMenu />
+          </header>
+          <main className="flex-grow">
+            {" "}
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about-us" element={<AboutUs />} />
+              <Route path="/contact-us" element={<Contact />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route
+                path="/profile"
+                element={
+                  <PrivateRoute>
+                    <Profile />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/register"
+                element={
+                  <PublicRoute>
+                    <Register />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/login"
+                element={
+                  <PublicRoute>
+                    <Login />
+                  </PublicRoute>
+                }
+              />
+              <Route path="/confirm-email" element={<ConfirmEmail />} />
+              <Route
+                path="/reset-password-request"
+                element={<ResetPasswordRequest />}
+              />
+              <Route path="/reset-password" element={<ResetPassword />} />
+            </Routes>
+          </main>
+          <footer>
+            <Footer />
+          </footer>
+        </Router>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <ToastContainer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
