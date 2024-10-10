@@ -1,27 +1,36 @@
 import { useState } from "react";
 import { Typography, Input, Button, Card } from "@material-tailwind/react";
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import "./css/styles.css";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export function ResetPassword() {
   const [passwordShown, setPasswordShown] = useState(false);
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
+  const token = new URLSearchParams(window.location.search).get("token");
+  const navigate = useNavigate();
 
-  const togglePasswordVisiblity = () => setPasswordShown((cur) => !cur);
-  const toggleConfirmPasswordVisiblity = () =>
+  const togglePasswordVisibility = () => setPasswordShown((cur) => !cur);
+  const toggleConfirmPasswordVisibility = () =>
     setConfirmPasswordShown((cur) => !cur);
 
   // Validation schema
   const validationSchema = Yup.object().shape({
     password: Yup.string()
       .required("Password is required")
-      .min(8, "Password must be at least 8 characters"),
+      .min(8, "Password must be at least 8 characters")
+      .trim(),
+
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password")], "Passwords must match")
-      .required("Confirm Password is required"),
+      .required("Confirm Password is required")
+      .trim(),
   });
 
   const {
@@ -32,9 +41,38 @@ export function ResetPassword() {
     resolver: yupResolver(validationSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
-    // registration logic here
+  // Function to handle form submission
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/reset-password",
+        {
+          token,
+          newPassword: data.password,
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success("Password reset successfully!");
+        navigate("/");
+      } else {
+        toast.error("Unexpected response. Please try again.");
+      }
+    } catch (error) {
+      console.error(error);
+      if (error.response) {
+        if (error.response.status === 401) {
+          toast.error("Unauthorized access. Invalid or expired token.");
+        } else {
+          toast.error(
+            error.response.data.message ||
+              "Failed to reset password. Please try again."
+          );
+        }
+      } else {
+        toast.error("Failed to reset password. Please try again.");
+      }
+    }
   };
 
   return (
@@ -60,11 +98,7 @@ export function ResetPassword() {
         <Typography className="mb-8 text-gray-600 font-normal text-center text-[18px]">
           Enter your password and confirm password to reset it
         </Typography>
-        <form
-          onSubmit={handleSubmit(onsubmit)}
-          action="#"
-          className="space-y-6 w-full"
-        >
+        <form className="space-y-6 w-full" onSubmit={handleSubmit(onSubmit)}>
           {/* Password */}
           <div>
             <label htmlFor="password">
@@ -79,10 +113,10 @@ export function ResetPassword() {
               {...register("password")}
               size="lg"
               placeholder="********"
-              className="w-full placeholder:opacity-70 focus:border-t-gray-900 border-gray-400 rounded-lg"
+              className="w-full placeholder:opacity-70 focus:border-t-gray-900 border-t-blue-gray-200 rounded-lg"
               type={passwordShown ? "text" : "password"}
               icon={
-                <i onClick={togglePasswordVisiblity}>
+                <i onClick={togglePasswordVisibility}>
                   {passwordShown ? (
                     <EyeIcon className="h-5 w-5 cursor-pointer" />
                   ) : (
@@ -97,7 +131,7 @@ export function ResetPassword() {
               </p>
             )}
           </div>
-          {/* confirm password */}
+          {/* Confirm Password */}
           <div>
             <label htmlFor="confirm-password">
               <Typography
@@ -114,7 +148,7 @@ export function ResetPassword() {
               className="w-full placeholder:opacity-70 focus:border-t-gray-900 border-t-blue-gray-200 rounded-lg"
               type={confirmPasswordShown ? "text" : "password"}
               icon={
-                <i onClick={toggleConfirmPasswordVisiblity}>
+                <i onClick={toggleConfirmPasswordVisibility}>
                   {confirmPasswordShown ? (
                     <EyeIcon className="h-5 w-5 cursor-pointer" />
                   ) : (
@@ -129,7 +163,6 @@ export function ResetPassword() {
               </p>
             )}
           </div>
-          {/* reset password Button */}
           <Button
             color="gray"
             type="submit"
@@ -141,6 +174,9 @@ export function ResetPassword() {
           </Button>
         </form>
       </Card>
+
+      {/* Toast Container for notifications */}
+      <ToastContainer />
     </section>
   );
 }
