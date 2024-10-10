@@ -92,20 +92,23 @@ export const Register = () => {
         );
       }
     } catch (error) {
-      // If there are validation errors, show them as toast messages
-      if (error.response?.data?.message) {
-        error.response.data.message.forEach((err) => {
-          toast.error(err.msg || "An error occurred. Please try again.", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+      // Handle "Email already exists" error
+      if (
+        error.response &&
+        error.response.status === 400 &&
+        error.response.data.message === "Email already exists"
+      ) {
+        toast.error("Email already exists. Please use a different email.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
         });
       } else {
+        // Handle other errors
         toast.error(
           error.response?.data?.message ||
             "An error occurred. Please try again.",

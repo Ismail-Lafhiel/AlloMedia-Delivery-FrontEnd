@@ -55,7 +55,7 @@ export function NavbarMenu() {
   };
 
   return (
-    <Navbar color="transparent" fullWidth>
+    <Navbar color="transparent" fullWidth className="bg-gray-100">
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
         <Link to="/">
           <Typography
