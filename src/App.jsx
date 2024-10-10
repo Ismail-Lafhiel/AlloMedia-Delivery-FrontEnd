@@ -12,18 +12,18 @@ import Register from "./auth/Register";
 import Login from "./auth/Login";
 import ResetPasswordRequest from "./auth/ResetPasswordRequest";
 import ResetPassword from "./auth/resetPassword";
-import Home from "./Home";
-import Contact from "./Contact";
-import Pricing from "./Pricing";
-import AboutUs from "./AboutUs";
+import Home from "./pages/Home";
+import Contact from "./pages/Contact";
+import Pricing from "./pages/Pricing";
+import AboutUs from "./pages/AboutUs";
 import ConfirmEmail from "./auth/ConfirmEmail";
-import Profile from "./profile/Profile";
+import Profile from "./pages/profile/Profile";
 import TwoFA from "./auth/TwoFactorAuthentication";
-import Error404 from "./Error404";
+import Error404 from "./pages/Error404";
 // 
-// routes access
-import PublicRoute from "./PublicRoute";
-import PrivateRoute from "./PrivateRoute";
+// middlewares
+import PublicRoute from "./middlewares/PublicRoute";
+import PrivateRoute from "./middlewares/PrivateRoute";
 //
 
 function App() {
@@ -35,7 +35,7 @@ function App() {
           <header>
             <NavbarMenu />
           </header>
-          <main className="flex-grow">
+          <main>
             {" "}
             <Routes>
               <Route path="/" element={<Home />} />
