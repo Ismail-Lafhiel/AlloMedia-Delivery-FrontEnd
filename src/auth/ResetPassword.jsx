@@ -54,7 +54,7 @@ export function ResetPassword() {
 
       if (response.status === 200) {
         toast.success("Password reset successfully!");
-        navigate("/");
+        navigate("/login");
       } else {
         toast.error("Unexpected response. Please try again.");
       }
