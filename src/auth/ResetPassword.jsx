@@ -163,7 +163,6 @@ export function ResetPassword() {
               </p>
             )}
           </div>
-          {/* Reset Password Button */}
           <Button
             color="gray"
             type="submit"
