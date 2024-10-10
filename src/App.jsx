@@ -11,6 +11,7 @@ import Contact from "./Contact";
 import Pricing from "./Pricing";
 import AboutUs from "./AboutUs";
 import ConfirmEmail from "./auth/ConfirmEmail";
+import PublicRoute from "./PublicRoute";
 
 function App() {
   return (
@@ -28,8 +29,22 @@ function App() {
               <Route path="/about-us" element={<AboutUs />} />
               <Route path="/contact-us" element={<Contact />} />
               <Route path="/pricing" element={<Pricing />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/login" element={<Login />} />
+              <Route
+                path="/register"
+                element={
+                  <PublicRoute>
+                    <Register />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/login"
+                element={
+                  <PublicRoute>
+                    <Login />
+                  </PublicRoute>
+                }
+              />
               <Route path="/confirm-email" element={<ConfirmEmail />} />
               <Route
                 path="/reset-password-request"
