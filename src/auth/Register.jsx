@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { Typography, Input, Button, Card } from "@material-tailwind/react";
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
@@ -25,12 +26,14 @@ export const Register = () => {
   const validationSchema = Yup.object().shape({
     first_name: Yup.string()
       .required("First Name is required")
-      .matches(/^[A-Za-z]+$/, "First Name must contain only letters")
+      .matches(/^[A-Za-z]+$/, "First name must contain only letters")
+      .min(3, "First name must be at least 3 characters long")
       .trim(),
 
     last_name: Yup.string()
       .required("Last Name is required")
-      .matches(/^[A-Za-z]+$/, "Last Name must contain only letters")
+      .matches(/^[A-Za-z]+$/, "Last name must contain only letters")
+      .min(3, "Last name must be at least 3 characters long")
       .trim(),
 
     email: Yup.string()
@@ -45,7 +48,7 @@ export const Register = () => {
       .min(8, "Password must be at least 8 characters")
       .trim(),
     confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password")], "Passwords must match")
+      .oneOf([Yup.ref("password")], "Password must match")
       .required("Confirm Password is required")
       .trim(),
   });
@@ -68,15 +71,11 @@ export const Register = () => {
       password: data.password.trim(),
       confirmPassword: data.confirmPassword.trim(),
     };
-
-    console.log("User Data Being Sent:", userData);
-
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/register",
+        `${import.meta.env.VITE_BACKEND_URL}/register`,
         userData
       );
-
       if (response.status === 201) {
         toast.success(
           response.data.message || "Account created successfully!",
@@ -245,15 +244,16 @@ export const Register = () => {
                 rules={{ required: "Phone number is required" }}
                 render={({ field: { onChange, onBlur, value, ref } }) => (
                   <PhoneInput
+                    placeholder="phone number"
                     country={"us"}
                     value={value}
-                    onChange={onChange} // Make sure to pass onChange here
-                    onBlur={onBlur} // Pass onBlur to ensure validation
+                    onChange={onChange}
+                    onBlur={onBlur}
                     inputClass="w-full placeholder:opacity-70 focus:border-t-gray-900 border-t-blue-gray-200 rounded-lg"
                     buttonClass="border-t-blue-gray-200 rounded-lg"
                     containerClass="w-full"
                     inputProps={{
-                      ref, // Register the input with the ref
+                      ref,
                       required: true,
                       name: "phone",
                     }}
@@ -282,7 +282,7 @@ export const Register = () => {
               <Input
                 {...register("password")}
                 size="lg"
-                placeholder="********"
+                placeholder="password"
                 className="w-full placeholder:opacity-70 focus:border-t-gray-900 border-t-blue-gray-200 rounded-lg"
                 type={passwordShown ? "text" : "password"}
                 icon={
@@ -314,7 +314,7 @@ export const Register = () => {
               <Input
                 {...register("confirmPassword")}
                 size="lg"
-                placeholder="********"
+                placeholder="confirm password"
                 className="w-full placeholder:opacity-70 focus:border-t-gray-900 border-t-blue-gray-200 rounded-lg"
                 type={confirmPasswordShown ? "text" : "password"}
                 icon={
@@ -337,6 +337,7 @@ export const Register = () => {
 
           <Button
             type="submit"
+            id="register"
             color="gray"
             size="lg"
             className="mt-6 rounded-lg"

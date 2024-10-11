@@ -30,7 +30,7 @@ export const TwoFactorAuthentication = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/verify-2fa",
+        `${import.meta.env.VITE_BACKEND_URL}/verify-2fa`,
         { email, confirmationCode: data.code }
       );
       // console.log(response.data);
@@ -52,7 +52,7 @@ export const TwoFactorAuthentication = () => {
   const handleResendCode = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/resend-code",
+        `${import.meta.env.VITE_BACKEND_URL}/resend-code`,
         { email }
       );
       toast.success("Verification code resent! Check your email.");

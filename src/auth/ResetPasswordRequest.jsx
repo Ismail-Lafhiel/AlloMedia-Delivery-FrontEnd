@@ -28,7 +28,7 @@ export const ResetPasswordRequest = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/request-password-reset`,
+        `${import.meta.env.VITE_BACKEND_URL}/request-password-reset`,
         data
       );
       toast.success("Password reset request sent! Check your email."); // Show success message
