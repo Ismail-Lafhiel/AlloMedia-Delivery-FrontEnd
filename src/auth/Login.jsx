@@ -42,20 +42,20 @@ export const Login = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/login",
+        `${process.env.BACKEND_URL}/login`,
         data
       );
 
       if (response.status === 200) {
         toast.success(response.data.message);
-        Cookies.set("token", response.data.token, { expires: 7 }); // Expires in 7 days
+        Cookies.set("token", response.data.token, { expires: 3 }); // Expires in 3 days
 
         // Storing the user data in local storage
         localStorage.setItem("user", JSON.stringify(response.data.user));
 
         // Log in the user using AuthContext
         login(response.data.user);
-        navigate("/"); // Redirecting to homepage
+        navigate("/");
       }
     } catch (error) {
       const errorMessage = error.response?.data.message || "Login failed.";

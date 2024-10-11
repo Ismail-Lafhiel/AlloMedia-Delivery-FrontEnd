@@ -45,7 +45,7 @@ export function ResetPassword() {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/reset-password",
+        `${process.env.BACKEND_URL}reset-password`,
         {
           token,
           newPassword: data.password,

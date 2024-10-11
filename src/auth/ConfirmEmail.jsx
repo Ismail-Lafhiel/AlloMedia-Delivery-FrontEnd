@@ -18,17 +18,17 @@ const ConfirmEmail = () => {
       try {
         setLoading(true);
         const response = await axios.post(
-          "http://localhost:3000/api/confirm-email",
+          `${process.env.BACKEND_URL}/api/confirm-email`,
           { token }
         );
 
         if (response.status === 200) {
           setTimeout(() => {
             setLoading(false);
-            setSuccess(true); // Set success to true
+            setSuccess(true); 
             setTimeout(() => {
               navigate("/login");
-            }, 3000); // Redirecting after showing success message
+            }, 3000);
           }, 1000);
         }
       } catch (error) {
