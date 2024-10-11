@@ -74,10 +74,9 @@ export const Register = () => {
     };
     try {
       const response = await axios.post(
-        `${process.env.BACKEND_URL}/register`,
+        `${import.meta.env.VITE_BACKEND_URL}/register`,
         userData
       );
-
       if (response.status === 201) {
         toast.success(
           response.data.message || "Account created successfully!",

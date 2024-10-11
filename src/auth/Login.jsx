@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Typography, Input, Button, Card } from "@material-tailwind/react";
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import "./css/styles.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,6 +15,8 @@ export const Login = () => {
   const { login } = useAuth();
   const [passwordShown, setPasswordShown] = useState(false);
   const togglePasswordVisiblity = () => setPasswordShown((cur) => !cur);
+  const [isLocked, setIsLocked] = useState(false);
+  const [remainingTime, setRemainingTime] = useState(0);
 
   const navigate = useNavigate();
 
@@ -26,8 +27,8 @@ export const Login = () => {
       .required("Email is required")
       .trim(),
     password: Yup.string()
-      .min(8, "Password must be at least 8 characters")
       .required("Password is required")
+      .min(8, "Password must be at least 8 characters")
       .trim(),
   });
 
@@ -40,45 +41,82 @@ export const Login = () => {
   });
 
   const onSubmit = async (data) => {
+    if (isLocked) return; // Prevent form submission while locked
+
     try {
       const response = await axios.post(
-        `${process.env.BACKEND_URL}/login`,
+        `${import.meta.env.VITE_BACKEND_URL}/login`,
         data
       );
 
       if (response.status === 200) {
         toast.success(response.data.message);
-        Cookies.set("token", response.data.token, { expires: 3 }); // Expires in 3 days
+        Cookies.set("token", response.data.token, { expires: 3 });
 
-        // Storing the user data in local storage
         localStorage.setItem("user", JSON.stringify(response.data.user));
-
-        // Log in the user using AuthContext
         login(response.data.user);
         navigate("/");
       }
     } catch (error) {
       const errorMessage = error.response?.data.message || "Login failed.";
       toast.error(errorMessage);
+
+      if (error.response?.data.lockout) {
+        handleLockout();
+      }
     }
   };
 
+  const handleLockout = () => {
+    setIsLocked(true);
+    const lockoutDuration = 3600; // 1 hour
+    const lockoutEndTime = Date.now() + lockoutDuration * 1000;
+    localStorage.setItem("lockoutEndTime", lockoutEndTime);
+    setRemainingTime(lockoutDuration);
+    toast.error("You have been locked out due to too many failed attempts.");
+  };
+
+  useEffect(() => {
+    // Check if lockoutEndTime exists in localStorage
+    const lockoutEndTime = localStorage.getItem("lockoutEndTime");
+
+    if (lockoutEndTime) {
+      const timeLeft = Math.max(0, (lockoutEndTime - Date.now()) / 1000);
+
+      // Only set the lockout if there's time left
+      if (timeLeft > 0) {
+        setIsLocked(true);
+        setRemainingTime(timeLeft);
+      } else {
+        // Clear lockout if time has passed
+        localStorage.removeItem("lockoutEndTime");
+        setIsLocked(false);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (remainingTime > 0) {
+      const interval = setInterval(() => {
+        setRemainingTime((prev) => prev - 1);
+      }, 1000);
+
+      return () => clearInterval(interval);
+    } else if (remainingTime === 0 && isLocked) {
+      setIsLocked(false);
+      toast.info("You can try logging in again.");
+      localStorage.removeItem("lockoutEndTime");
+    }
+  }, [remainingTime, isLocked]);
+
   return (
     <section className="min-h-screen flex items-center justify-center bg-gray-200 relative overflow-hidden">
-      {/* Animated Background */}
       <div className="animated-background">
-        <div className="shape triangle"></div>
-        <div className="shape cross"></div>
-        <div className="shape square"></div>
-        <div className="shape triangle"></div>
-        <div className="shape cross"></div>
-        <div className="shape square"></div>
         <div className="shape triangle"></div>
         <div className="shape cross"></div>
         <div className="shape square"></div>
       </div>
 
-      {/* Form Card */}
       <Card className="p-8 shadow-xl w-full max-w-[28rem] md:max-w-[32rem] bg-white relative z-10">
         <Typography variant="h3" color="blue-gray" className="text-center mb-6">
           Sign In
@@ -87,7 +125,7 @@ export const Login = () => {
           Enter your email and password to sign in
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 w-full">
-          {/* Email */}
+          {/* Email Field */}
           <div>
             <label htmlFor="email">
               <Typography
@@ -114,7 +152,7 @@ export const Login = () => {
             )}
           </div>
 
-          {/* Password */}
+          {/* Password Field */}
           <div>
             <label htmlFor="password">
               <Typography
@@ -159,15 +197,17 @@ export const Login = () => {
               </Link>
             </Typography>
           </div>
+
           {/* Sign in Button */}
           <Button
-            color="gray"
             type="submit"
-            size="lg"
-            className="mt-6 rounded-lg"
             fullWidth
+            className="mt-6 rounded-lg"
+            disabled={isLocked}
           >
-            Sign in
+            {isLocked
+              ? `Please wait ${Math.ceil(remainingTime)} seconds`
+              : "Sign In"}
           </Button>
 
           {/* Google Sign-in */}
@@ -177,15 +217,11 @@ export const Login = () => {
             className="mt-4 flex items-center justify-center gap-2 h-12 rounded-lg border-gray-400"
             fullWidth
           >
-            <img
-              // src={`https://www.material-tailwind.com/logos/logo-google.png`}
-              alt="google"
-              className="h-6 w-6"
-            />
+            <img alt="google" className="h-6 w-6" />
             Sign in with Google
           </Button>
 
-          {/* Sign In Link */}
+          {/* Sign Up Link */}
           <Typography
             variant="small"
             color="gray"

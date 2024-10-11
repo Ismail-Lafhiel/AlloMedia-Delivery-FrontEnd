@@ -9,13 +9,13 @@ describe("User Registration Functionality", () => {
   };
 
   it("should load the registration page", () => {
-    cy.visit(`${process.env.FRONTEND_URL}/register`);
-    cy.url().should("eq", `${process.env.FRONTEND_URL}/register`);
+    cy.visit(`${process.env.VITE_FRONTEND_URL}/register`);
+    cy.url().should("eq", `${process.env.VITE_FRONTEND_URL}/register`);
     cy.get("h3").contains("Create New Account").should("exist");
   });
 
   it("should display a success toast on successful registration", () => {
-    cy.intercept("POST", `${process.env.BACKEND_URL}/api/register`, (req) => {
+    cy.intercept("POST", `${process.env.VITE_BACKEND_URL}/api/register`, (req) => {
       req.reply({
         statusCode: 201,
         body: {
@@ -24,7 +24,7 @@ describe("User Registration Functionality", () => {
       });
     }).as("registerUser");
 
-    cy.visit(`${process.env.FRONTEND_URL}/register`);
+    cy.visit(`${process.env.VITE_FRONTEND_URL}/register`);
 
     // Filling out the form with debug logs
     cy.get('[name="first_name"]').type(registrationData.firstName).then(($input) => {
@@ -64,14 +64,14 @@ describe("User Registration Functionality", () => {
   });
 
   it("should display an error if email already exists", () => {
-    cy.intercept("POST", "${process.env.BACKEND_URL}/api/register", (req) => {
+    cy.intercept("POST", `${process.env.VITE_BACKEND_URL}/api/register`, (req) => {
       req.reply({
         statusCode: 400,
         body: { message: "Email already exists" },
       });
     }).as("registerUserExists");
 
-    cy.visit(`${process.env.FRONTEND_URL}/register`);
+    cy.visit(`${process.env.VITE_FRONTEND_URL}/register`);
 
     // Filling out the form again with an existing email
     cy.get('[name="first_name"]').type(registrationData.firstName);

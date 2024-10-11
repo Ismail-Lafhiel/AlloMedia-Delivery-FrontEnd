@@ -18,7 +18,7 @@ const ConfirmEmail = () => {
       try {
         setLoading(true);
         const response = await axios.post(
-          `${process.env.BACKEND_URL}/api/confirm-email`,
+          `${import.meta.env.VITE_BACKEND_URL}/confirm-email`,
           { token }
         );
 
