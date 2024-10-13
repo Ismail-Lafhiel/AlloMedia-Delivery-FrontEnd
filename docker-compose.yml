@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  backend:
+    image: ismaillf/allo-media-delivery:latest  # from Docker Hub
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/AlloMediaDelivery
+      - JWT_SECRET=12xA@_41AQ3Fx011zU4
+      - NODE_ENV=development
+      - PORT=3000
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:80"
+    environment:
+      - VITE_BACKEND_URL=http://backend:3000/api
+      - VITE_FRONTEND_URL=http://localhost:5173
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data:
