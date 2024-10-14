@@ -1,19 +1,18 @@
-FROM node:20 AS build
+# Use the Node image for development
+FROM node:20
 
+# Set working directory inside the container
 WORKDIR /app
 
+# Copy package.json and install dependencies
 COPY package*.json ./
-
 RUN npm install
 
+# Copy the rest of the application code
 COPY . .
 
-RUN npm run build
+# Expose port 5173 for Vite dev server
+EXPOSE 5173
 
-FROM nginx:latest
-
-COPY --from=build /app/dist /usr/share/nginx/html
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+# Start the development server
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
