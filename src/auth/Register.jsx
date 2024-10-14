@@ -345,20 +345,6 @@ export const Register = () => {
           >
             Register
           </Button>
-          {/* Google Sign-in */}
-          <Button
-            variant="outlined"
-            size="lg"
-            className="mt-4 flex items-center justify-center gap-2 h-12 rounded-lg border-gray-400"
-            fullWidth
-          >
-            <img
-              // src={`https://www.material-tailwind.com/logos/logo-google.png`}
-              alt="google"
-              className="h-6 w-6"
-            />
-            Sign in with Google
-          </Button>
 
           {/* Sign In Link */}
           <Typography

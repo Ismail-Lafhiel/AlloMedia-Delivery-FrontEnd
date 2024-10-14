@@ -11,7 +11,7 @@ import Footer from "./partials/Footer";
 import Register from "./auth/Register";
 import Login from "./auth/Login";
 import ResetPasswordRequest from "./auth/ResetPasswordRequest";
-import ResetPassword from "./auth/resetPassword";
+import ResetPassword from "./auth/ResetPassword";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import Pricing from "./pages/Pricing";
